@@ -28,9 +28,17 @@ public class BookService : IBookService
         await _bookDao.SaveAllAsync(bookStore);
     }
 
-    public Task DeleteBookByIsbnAsync(string isbn)
+    public async Task DeleteBookByIsbnAsync(string isbn)
     {
-        throw new NotImplementedException();
+        var books = await _bookDao.GetAllBooksAsync();
+        var bookToDelete = books.Books.FirstOrDefault(b => b.Isbn == isbn);
+
+        if (bookToDelete == null)
+            throw new BookNotFoundException(isbn);
+
+        books.Books = books.Books.Where(b => b.Isbn != isbn).ToList();
+
+        await _bookDao.SaveAllAsync(books);
     }
 
     public async Task<List<BookDTO>> GetAllBooksAsync()

@@ -48,6 +48,8 @@ public class BooksController : BaseApiController
     [HttpDelete("{isbn}")]
     public async Task<IActionResult> DeleteBookAsync([FromRoute] string isbn)
     {
+        await _bookService.DeleteBookByIsbnAsync(isbn);
+
         return NoContent();
     }
 }
