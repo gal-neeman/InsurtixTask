@@ -4,6 +4,7 @@ using InsurtixTask.Application.Interfaces;
 using InsurtixTask.Application.RequestObjects;
 using InsurtixTask.Domain.Entities;
 using InsurtixTask.Domain.Exceptions;
+using Microsoft.Extensions.Logging;
 
 namespace InsurtixTask.Application.Services;
 
@@ -11,15 +12,18 @@ public class BookService : IBookService
 {
     private readonly IBookDao _bookDao;
     private readonly IMapper _mapper;
+    private readonly ILogger<BookService> _logger;
 
-    public BookService(IBookDao bookDao, IMapper mapper)
+    public BookService(IBookDao bookDao, IMapper mapper, ILogger<BookService> logger)
     {
         _bookDao = bookDao;
         _mapper = mapper;
+        _logger = logger;
     }
 
     public async Task AddBookAsync(BookRequest bookRequest)
     {
+        _logger.LogInformation($"Trying to add book with ISBN: {bookRequest.Isbn}");
         var bookStore = await _bookDao.GetAllBooksAsync();
 
         if (bookStore.Books.FirstOrDefault(b => b.Isbn == bookRequest.Isbn) != null)
@@ -29,10 +33,12 @@ public class BookService : IBookService
         bookStore.Books.Add(book);
 
         await _bookDao.SaveAllAsync(bookStore);
+        _logger.LogInformation($"Book with ISBN: {bookRequest.Isbn} added successfully");
     }
 
     public async Task DeleteBookByIsbnAsync(string isbn)
     {
+        _logger.LogInformation($"Trying to delete book with ISBN: {isbn}");
         var books = await _bookDao.GetAllBooksAsync();
         var bookToDelete = books.Books.FirstOrDefault(b => b.Isbn == isbn);
 
@@ -42,10 +48,12 @@ public class BookService : IBookService
         books.Books = books.Books.Where(b => b.Isbn != isbn).ToList();
 
         await _bookDao.SaveAllAsync(books);
+        _logger.LogInformation($"Book with ISBN: {isbn} deleted successfully");
     }
 
     public async Task<List<BookDTO>> GetAllBooksAsync()
     {
+        _logger.LogInformation("Retrieving all books");
         var bookStore = await _bookDao.GetAllBooksAsync();
         var books = _mapper.Map<List<Book>, List<BookDTO>>(bookStore.Books);
 
@@ -54,6 +62,7 @@ public class BookService : IBookService
 
     public async Task<BookDTO> GetBookByIsbnAsync(string isbn)
     {
+        _logger.LogInformation($"Retrieving book with ISBN: {isbn}");
         var bookStore = await _bookDao.GetAllBooksAsync();
         var book = bookStore.Books.FirstOrDefault(b => b.Isbn == isbn);
 
@@ -66,6 +75,7 @@ public class BookService : IBookService
 
     public async Task UpdateBookByIsbnAsync(BookRequest book)
     {
+        _logger.LogInformation($"Trying to update book with ISBN: {book.Isbn}");
         var books = await _bookDao.GetAllBooksAsync();
         var bookToUpdate = books.Books.FirstOrDefault(b => b.Isbn == book.Isbn);
 
@@ -75,5 +85,6 @@ public class BookService : IBookService
         _mapper.Map(book, bookToUpdate);
 
         await _bookDao.SaveAllAsync(books);
+        _logger.LogInformation($"Book with ISBN: {book.Isbn} updated successfully");
     }
 }
