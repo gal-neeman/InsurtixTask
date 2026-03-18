@@ -12,7 +12,7 @@ public class Book
     [XmlElement("title")]
     public Title Title { get; set; } = new();
     [XmlElement("author")]
-    public string Author { get; set; } = String.Empty;
+    public List<string> Author { get; set; } = [];
     [XmlElement("year")]
     public int Year { get; set; }
     [XmlElement("price")]

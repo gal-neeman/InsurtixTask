@@ -1,4 +1,5 @@
-﻿using InsurtixTask.API.RequestObjects;
+﻿using InsurtixTask.Application.Interfaces;
+using InsurtixTask.Application.RequestObjects;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InsurtixTask.API.Controllers;
@@ -6,28 +7,41 @@ namespace InsurtixTask.API.Controllers;
 [ApiController]
 public class BooksController : BaseApiController
 {
+    private readonly IBookService _bookService;
+
+    public BooksController(IBookService bookService)
+    {
+        _bookService = bookService;
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetAllBooksAsync()
     {
-        return Ok();
+        var books = await _bookService.GetAllBooksAsync();
+
+        return Ok(books);
     }
 
     [HttpGet("{isbn}")]
-    public async Task<IActionResult> GetBookByIsbnAsync()
+    public async Task<IActionResult> GetBookByIsbnAsync([FromRoute] string isbn)
     {
-        return Ok();
+        var book = await _bookService.GetBookByIsbnAsync(isbn);
+
+        return Ok(book);
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddBooksAsync(BookRequest bookRequest)
+    public async Task<IActionResult> AddBooksAsync([FromBody] BookRequest bookRequest)
     {
+        await _bookService.AddBookAsync(bookRequest);
 
         return Created();
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateBookAsync(BookRequest bookRequest)
+    public async Task<IActionResult> UpdateBookAsync([FromBody] BookRequest bookRequest)
     {
+        await _bookService.UpdateBookByIsbnAsync(bookRequest);
 
         return NoContent();
     }
@@ -35,6 +49,8 @@ public class BooksController : BaseApiController
     [HttpDelete("{isbn}")]
     public async Task<IActionResult> DeleteBookAsync([FromRoute] string isbn)
     {
+        await _bookService.DeleteBookByIsbnAsync(isbn);
+
         return NoContent();
     }
 }
