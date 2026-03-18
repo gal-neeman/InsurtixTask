@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <bookstore>
-  <book category="children">
+  <book category="faries">
     <isbn>9051234567897</isbn>
-    <title lang="en">Harry Potter</title>
-    <author>J K. Rowling</author>
+    <title lang="">en</title>
+    <author>J K. Balling</author>
     <price>29.99</price>
-    <year>2005</year>
+    <year>2002</year>
   </book>
   <book category="web">
     <isbn>9031234567897</isbn>

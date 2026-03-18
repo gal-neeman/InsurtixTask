@@ -31,7 +31,7 @@ public class BooksController : BaseApiController
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddBooksAsync(BookRequest bookRequest)
+    public async Task<IActionResult> AddBooksAsync([FromBody] BookRequest bookRequest)
     {
         await _bookService.AddBookAsync(bookRequest);
 
@@ -39,8 +39,9 @@ public class BooksController : BaseApiController
     }
 
     [HttpPut]
-    public async Task<IActionResult> UpdateBookAsync(BookRequest bookRequest)
+    public async Task<IActionResult> UpdateBookAsync([FromBody] BookRequest bookRequest)
     {
+        await _bookService.UpdateBookByIsbnAsync(bookRequest);
 
         return NoContent();
     }

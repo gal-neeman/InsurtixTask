@@ -61,8 +61,16 @@ public class BookService : IBookService
         return bookDto;
     }
 
-    public Task UpdateBookByIsbnAsync(BookRequest book)
+    public async Task UpdateBookByIsbnAsync(BookRequest book)
     {
-        throw new NotImplementedException();
+        var books = await _bookDao.GetAllBooksAsync();
+        var bookToUpdate = books.Books.FirstOrDefault(b => b.Isbn == book.Isbn);
+
+        if (bookToUpdate == null)
+            throw new BookNotFoundException(book.Isbn);
+
+        _mapper.Map(book, bookToUpdate);
+
+        await _bookDao.SaveAllAsync(books);
     }
 }
