@@ -23,9 +23,11 @@ public class BooksController : BaseApiController
     }
 
     [HttpGet("{isbn}")]
-    public async Task<IActionResult> GetBookByIsbnAsync()
+    public async Task<IActionResult> GetBookByIsbnAsync([FromRoute] string isbn)
     {
-        return Ok();
+        var book = await _bookService.GetBookByIsbnAsync(isbn);
+
+        return Ok(book);
     }
 
     [HttpPost]

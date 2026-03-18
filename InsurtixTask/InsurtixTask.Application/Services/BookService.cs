@@ -3,6 +3,7 @@ using InsurtixTask.Application.DTOs;
 using InsurtixTask.Application.Interfaces;
 using InsurtixTask.Application.RequestObjects;
 using InsurtixTask.Domain.Entities;
+using InsurtixTask.Domain.Exceptions;
 
 namespace InsurtixTask.Application.Services;
 
@@ -40,9 +41,16 @@ public class BookService : IBookService
         return books;
     }
 
-    public Task<BookDTO> GetBookByIsbnAsync(string isbn)
+    public async Task<BookDTO> GetBookByIsbnAsync(string isbn)
     {
-        throw new NotImplementedException();
+        var bookStore = await _bookDao.GetAllBooksAsync();
+        var book = bookStore.Books.FirstOrDefault(b => b.Isbn == isbn);
+
+        if (book == null)
+            throw new BookNotFoundException(isbn);
+
+        var bookDto = _mapper.Map<Book, BookDTO>(book);
+        return bookDto;
     }
 
     public Task UpdateBookByIsbnAsync(BookRequest book)
