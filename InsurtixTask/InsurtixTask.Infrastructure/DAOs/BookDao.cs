@@ -53,7 +53,7 @@ public class BookDao : IBookDao
                     Language = b.Element(_titleElementName)?.Attribute(_langAttributeName)?.Value ?? string.Empty,
                     Value = b.Element(_titleElementName)?.Value ?? string.Empty
                 },
-                Author = b.Element(_authorElementName)?.Value ?? string.Empty,
+                Author = b.Elements(_authorElementName).Select(a => a.Value).ToList(),
                 Price = decimal.Parse(b.Element(_priceElementName)?.Value ?? "0"),
                 Year = int.Parse(b.Element(_yearElementName)?.Value ?? "0")
             }).ToList() ?? new List<Book>()
@@ -70,7 +70,7 @@ public class BookDao : IBookDao
                     new XAttribute(_categoryAttributeName, b.Category),
                     new XElement(_isbnElementName, b.Isbn),
                     new XElement(_titleElementName, new XAttribute(_langAttributeName, b.Title.Language), b.Title.Value),
-                    new XElement(_authorElementName, b.Author),
+                    b.Author.Select(authorName => new XElement(_authorElementName, authorName)),
                     new XElement(_priceElementName, b.Price),
                     new XElement(_yearElementName, b.Year)
                 ))

@@ -1,4 +1,5 @@
-﻿using InsurtixTask.API.RequestObjects;
+﻿using InsurtixTask.Application.Interfaces;
+using InsurtixTask.Application.RequestObjects;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InsurtixTask.API.Controllers;
@@ -6,10 +7,19 @@ namespace InsurtixTask.API.Controllers;
 [ApiController]
 public class BooksController : BaseApiController
 {
+    private readonly IBookService _bookService;
+
+    public BooksController(IBookService bookService)
+    {
+        _bookService = bookService;
+    }
+
     [HttpGet]
     public async Task<IActionResult> GetAllBooksAsync()
     {
-        return Ok();
+        var books = await _bookService.GetAllBooksAsync();
+
+        return Ok(books);
     }
 
     [HttpGet("{isbn}")]
@@ -21,6 +31,7 @@ public class BooksController : BaseApiController
     [HttpPost]
     public async Task<IActionResult> AddBooksAsync(BookRequest bookRequest)
     {
+        await _bookService.AddBookAsync(bookRequest);
 
         return Created();
     }

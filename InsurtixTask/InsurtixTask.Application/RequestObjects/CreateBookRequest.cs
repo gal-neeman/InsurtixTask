@@ -1,4 +1,4 @@
-﻿namespace InsurtixTask.API.RequestObjects;
+﻿namespace InsurtixTask.Application.RequestObjects;
 
 public class BookRequest
 {
@@ -7,7 +7,7 @@ public class BookRequest
     public Title Title { get; set; } = new();
     public List<string> Author { get; set; } = [];
     public int Year { get; set; }
-    public decimal Money { get; set; }
+    public decimal Price { get; set; }
 }
 
 public class Title

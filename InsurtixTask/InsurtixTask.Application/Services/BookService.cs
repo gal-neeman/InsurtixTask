@@ -1,0 +1,52 @@
+﻿using AutoMapper;
+using InsurtixTask.Application.DTOs;
+using InsurtixTask.Application.Interfaces;
+using InsurtixTask.Application.RequestObjects;
+using InsurtixTask.Domain.Entities;
+
+namespace InsurtixTask.Application.Services;
+
+public class BookService : IBookService
+{
+    private readonly IBookDao _bookDao;
+    private readonly IMapper _mapper;
+
+    public BookService(IBookDao bookDao, IMapper mapper)
+    {
+        _bookDao = bookDao;
+        _mapper = mapper;
+    }
+
+    public async Task AddBookAsync(BookRequest bookRequest)
+    {
+        var bookStore = await _bookDao.GetAllBooksAsync();
+
+        var book = _mapper.Map<BookRequest, Book>(bookRequest);
+        bookStore.Books.Add(book);
+
+        await _bookDao.SaveAllAsync(bookStore);
+    }
+
+    public Task DeleteBookByIsbnAsync(string isbn)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<List<BookDTO>> GetAllBooksAsync()
+    {
+        var bookStore = await _bookDao.GetAllBooksAsync();
+        var books = _mapper.Map<List<Book>, List<BookDTO>>(bookStore.Books);
+
+        return books;
+    }
+
+    public Task<BookDTO> GetBookByIsbnAsync(string isbn)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task UpdateBookByIsbnAsync(BookRequest book)
+    {
+        throw new NotImplementedException();
+    }
+}
