@@ -12,8 +12,8 @@ public class BookProfile : Profile
         CreateMap<BookRequest, Book>()
             .ForMember(dest => dest.Title, opt => opt.MapFrom(src => new Domain.Entities.Title
             {
-                Language = src.Title.TitleName,
-                Value = src.Title.Language
+                Language = src.Title.Language,
+                Value = src.Title.Value
             }))
 
             .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Author))

@@ -22,6 +22,9 @@ public class BookService : IBookService
     {
         var bookStore = await _bookDao.GetAllBooksAsync();
 
+        if (bookStore.Books.FirstOrDefault(b => b.Isbn == bookRequest.Isbn) != null)
+            throw new BookAlreadyExistsException(bookRequest.Isbn);
+
         var book = _mapper.Map<BookRequest, Book>(bookRequest);
         bookStore.Books.Add(book);
 

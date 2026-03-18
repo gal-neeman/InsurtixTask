@@ -12,6 +12,6 @@ public class BookRequest
 
 public class Title
 {
-    public string TitleName { get; set; } = string.Empty;
+    public string Value { get; set; } = string.Empty;
     public string Language { get; set; } = string.Empty;
 }
