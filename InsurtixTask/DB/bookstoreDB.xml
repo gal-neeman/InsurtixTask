@@ -25,4 +25,13 @@
     <price>39.95</price>
     <year>2003</year>
   </book>
+  <book category="test category">
+    <isbn>9781158311781</isbn>
+    <title lang="fr">book title</title>
+    <author>J K. Balling</author>
+    <author>Moshe Cohen</author>
+    <author>Bart Simpson</author>
+    <price>29.99</price>
+    <year>2002</year>
+  </book>
 </bookstore>

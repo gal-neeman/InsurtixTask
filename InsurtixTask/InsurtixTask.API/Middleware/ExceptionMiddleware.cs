@@ -1,4 +1,5 @@
-﻿using InsurtixTask.Domain.Exceptions;
+﻿using FluentValidation;
+using InsurtixTask.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Text.Json;
@@ -40,6 +41,7 @@ public class ExceptionMiddleware
             BookNotFoundException => HttpStatusCode.NotFound,
             BookAlreadyExistsException => HttpStatusCode.Conflict,
             UnauthorizedAccessException => HttpStatusCode.Unauthorized,
+            ValidationException => HttpStatusCode.BadRequest,
             NoDbException => HttpStatusCode.InternalServerError,
             _ => HttpStatusCode.InternalServerError
         };
