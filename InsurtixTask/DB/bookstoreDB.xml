@@ -1,11 +1,11 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="UTF-8"?>
 <bookstore>
-  <book category="faries">
+  <book category="children">
     <isbn>9051234567897</isbn>
-    <title lang="">en</title>
-    <author>J K. Balling</author>
+    <title lang="en">Harry Potter</title>
+    <author>J K. Rowling</author>
+    <year>2005</year>
     <price>29.99</price>
-    <year>2002</year>
   </book>
   <book category="web">
     <isbn>9031234567897</isbn>
@@ -15,23 +15,14 @@
     <author>Kurt Cagle</author>
     <author>James Linn</author>
     <author>Vaidyanathan Nagarajan</author>
-    <price>49.99</price>
     <year>2003</year>
+    <price>49.99</price>
   </book>
-  <book category="web">
+  <book category="web" cover="paperback">
     <isbn>9043127323207</isbn>
     <title lang="en">Learning XML</title>
     <author>Erik T. Ray</author>
-    <price>39.95</price>
     <year>2003</year>
-  </book>
-  <book category="test category">
-    <isbn>9781158311781</isbn>
-    <title lang="fr">book title</title>
-    <author>J K. Balling</author>
-    <author>Moshe Cohen</author>
-    <author>Bart Simpson</author>
-    <price>29.99</price>
-    <year>2002</year>
+    <price>39.95</price>
   </book>
 </bookstore>

@@ -6,6 +6,7 @@ using InsurtixTask.Application.Services;
 using InsurtixTask.Application.Validators;
 using InsurtixTask.Infrastructure.DAOs;
 using InsurtixTask.Infrastructure.Options;
+using InsurtixTask.Infrastructure.Services;
 
 namespace InsurtixTask.API.Extensions;
 
@@ -23,6 +24,7 @@ public static class BuilderExtensions
     {
         services.AddScoped<IBookDao, BookDao>();
         services.AddScoped<IBookService, BookService>();
+        services.AddScoped<IReportService, ReportService>();
 
         services.AddAutoMapper(typeof(BookProfile));
 
