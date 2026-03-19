@@ -14,7 +14,8 @@ This project strictly adheres to **Clean Architecture** principles, divided into
 * **API (`InsurtixTask.API`):** The presentation layer. Contains the Web API controllers, dependency injection setup, and global exception handling middleware.
 
 ## ✨ Features
-
+* **Logging** With Serilog, configured for Errors only in Production, and Information+ in Test, Development
+* **Mapping** With Automapper, mapping Request types, DTOs, and Entity types.
 * **CRUD Operations:** Create, Read, Update, and Delete books.
 * **Unique Identifier:** All operations target specific books using their unique `ISBN`.
 * **XML Data Store:** Reads and writes to a persistent XML file.
@@ -29,6 +30,8 @@ This project strictly adheres to **Clean Architecture** principles, divided into
 * ASP.NET Core Web API
 * FluentValidation
 * Dependency Injection / IOptions
+* Serilog
+* Automapper
 
 ## Endpoints
 <img width="297" height="243" alt="image" src="https://github.com/user-attachments/assets/ae159187-a6d3-4d13-9157-e9100045dc4c" />
