@@ -13,7 +13,8 @@ builder.Host.UseSerilog((context, services, configuration) => configuration
 
 // Add services to the container.
 builder.Services.AddConfigurationOptions(builder.Configuration);
-builder.Services.AddServices(builder.Configuration);
+builder.Services.AddServices();
+builder.Services.AddValidators();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

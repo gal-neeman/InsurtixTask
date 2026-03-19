@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using InsurtixTask.Application.DTOs;
 using InsurtixTask.Application.Interfaces;
 using InsurtixTask.Application.RequestObjects;
@@ -13,17 +14,29 @@ public class BookService : IBookService
     private readonly IBookDao _bookDao;
     private readonly IMapper _mapper;
     private readonly ILogger<BookService> _logger;
+    private readonly IValidator<BookRequest> _bookRequestValidator;
 
-    public BookService(IBookDao bookDao, IMapper mapper, ILogger<BookService> logger)
+    public BookService(
+        IBookDao bookDao, 
+        IMapper mapper, 
+        ILogger<BookService> logger, 
+        IValidator<BookRequest> bookRequestValidator
+        )
     {
         _bookDao = bookDao;
         _mapper = mapper;
         _logger = logger;
+        _bookRequestValidator = bookRequestValidator;
     }
 
     public async Task AddBookAsync(BookRequest bookRequest)
     {
         _logger.LogInformation($"Trying to add book with ISBN: {bookRequest.Isbn}");
+
+        var validationResult = await _bookRequestValidator.ValidateAsync(bookRequest);
+        if (!validationResult.IsValid)
+            throw new ValidationException(validationResult.Errors);
+
         var bookStore = await _bookDao.GetAllBooksAsync();
 
         if (bookStore.Books.FirstOrDefault(b => b.Isbn == bookRequest.Isbn) != null)
@@ -73,18 +86,23 @@ public class BookService : IBookService
         return bookDto;
     }
 
-    public async Task UpdateBookByIsbnAsync(BookRequest book)
+    public async Task UpdateBookByIsbnAsync(BookRequest bookRequest)
     {
-        _logger.LogInformation($"Trying to update book with ISBN: {book.Isbn}");
+        _logger.LogInformation($"Trying to update book with ISBN: {bookRequest.Isbn}");
+
+        var validationResult = await _bookRequestValidator.ValidateAsync(bookRequest);
+        if (!validationResult.IsValid)
+            throw new ValidationException(validationResult.Errors);
+
         var books = await _bookDao.GetAllBooksAsync();
-        var bookToUpdate = books.Books.FirstOrDefault(b => b.Isbn == book.Isbn);
+        var bookToUpdate = books.Books.FirstOrDefault(b => b.Isbn == bookRequest.Isbn);
 
         if (bookToUpdate == null)
-            throw new BookNotFoundException(book.Isbn);
+            throw new BookNotFoundException(bookRequest.Isbn);
 
-        _mapper.Map(book, bookToUpdate);
+        _mapper.Map(bookRequest, bookToUpdate);
 
         await _bookDao.SaveAllAsync(books);
-        _logger.LogInformation($"Book with ISBN: {book.Isbn} updated successfully");
+        _logger.LogInformation($"Book with ISBN: {bookRequest.Isbn} updated successfully");
     }
 }
