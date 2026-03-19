@@ -31,4 +31,5 @@ This project strictly adheres to **Clean Architecture** principles, divided into
 * Dependency Injection / IOptions
 
 ## Endpoints
-<img width="290" height="239" alt="image" src="https://github.com/user-attachments/assets/a4173d79-4cd9-48bc-ad9f-3608bc0f58c9" />
+<img width="297" height="243" alt="image" src="https://github.com/user-attachments/assets/ae159187-a6d3-4d13-9157-e9100045dc4c" />
+
