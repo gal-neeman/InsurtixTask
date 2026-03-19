@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="InsurtixTask.Application/InsurtixTask.Application.csproj" />
+  <Project Path="InsurtixTask.Domain/InsurtixTask.Domain.csproj" />
+  <Project Path="InsurtixTask.Infrastructure/InsurtixTask.Infrastructure.csproj" />
+  <Project Path="InsurtixTask.API/InsurtixTask.API.csproj" />
+</Solution>
